@@ -1,0 +1,33 @@
+
+# RStudio temporary files
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Quarto temporary files
+.quarto/
+*_cache/
+*_files/
+
+# LaTeX temporary files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Windows temporary files
+Thumbs.db
+Desktop.ini
+
+# Sensitive files
+.Renviron
+.env
+.env.*
+
+# Backup files
+*.bak
+*.tmp
