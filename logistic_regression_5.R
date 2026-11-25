@@ -1,3 +1,4 @@
+source("clean_data_2.R")
 cad_model <- glm(
   cad_present ~ I(age / 10) +
     sex_group +

@@ -9,6 +9,7 @@ format:
   html:
     toc: true
     number-sections: true
+    embed-resources: true
   pdf:
     toc: true
     number-sections: true
@@ -29,51 +30,50 @@ execute:
 
 # Abstract {.unnumbered}
 
-**Background:** Understanding associations between demographic characteristics, clinical measurements and coronary artery disease (CAD) is important for cardiovascular research. This exploratory study investigated these associations using a publicly available clinical dataset.
+**Background:** Understanding the relationship between clinical measurements and coronary artery disease (CAD) is important in cardiovascular research. This study explored associations between demographic and clinical characteristics and recorded CAD using a publicly available dataset.
 
-**Methods:** Data from 303 patients in the UCI Cleveland Heart Disease dataset were analysed using R. Descriptive statistics and Welch's t-tests were used to compare patients with and without CAD. Multivariable logistic regression examined associations between CAD and age, sex, resting systolic blood pressure and total cholesterol. Exploratory spline modelling and sensitivity analyses assessed model assumptions and robustness.
+**Methods:** Data from 303 patients in the UCI Cleveland Heart Disease dataset were analysed using R. Descriptive statistics and Welch's t-tests were used to compare patients with and without recorded obstructive CAD. Multivariable logistic regression investigated associations with age, sex, resting systolic blood pressure and total cholesterol. Exploratory spline modelling and sensitivity analyses were also performed.
 
-**Results:** CAD was recorded in 139 patients (45.9%). Patients with CAD had higher mean systolic blood pressure than those without CAD (134.57 versus 129.25 mmHg; p = 0.0094). In the original multivariable logistic regression, increasing age (adjusted OR 1.75 per decade, 95% CI 1.29–2.37) and male sex (adjusted OR 5.35, 95% CI 2.93–9.79) were associated with higher CAD odds. Blood pressure and cholesterol did not demonstrate statistically significant adjusted associations at the 5% threshold. Exploratory modelling suggested a nonlinear age association.
+**Results:** CAD was recorded in 139 patients (45.9%). Mean systolic blood pressure was higher in patients with CAD (134.57 versus 129.25 mmHg; p = 0.0094). In the initial multivariable model, increasing age (adjusted OR 1.75 per decade, 95% CI 1.29–2.37) and male sex (adjusted OR 5.35, 95% CI 2.93–9.79) were associated with higher odds of CAD. Blood pressure and cholesterol did not demonstrate statistically significant adjusted associations. Exploratory modelling suggested a nonlinear relationship with age.
 
-**Conclusion:** Age and sex demonstrated associations with existing CAD in this selected clinical sample. The findings highlight the importance of adjusting for patient characteristics, assessing model assumptions and interpreting observational healthcare data cautiously.
+**Conclusion:** Age and sex were associated with recorded CAD in this historical clinical sample. The findings demonstrate the importance of considering other patient characteristics and evaluating statistical assumptions, although the small, selected population limits their generalisability.
 
 # Background
 
-Coronary artery disease (CAD) is a major cardiovascular
-condition associated with clinical and demographic factors,
-including age, sex, blood pressure and cholesterol [@esc2021].
+Coronary artery disease (CAD) is a major cardiovascular condition associated with factors including age, sex, blood pressure and cholesterol [@esc2021]. Understanding these relationships is important in cardiovascular research and clinical practice.
 
-This project explores associations between these
-characteristics and the presence of CAD using R.
+My background in pharmacy prompted an interest in how clinical measurements can be analysed to better understand disease. This project uses R to investigate associations between age, sex, resting systolic blood pressure, total cholesterol and the presence of CAD in the UCI Cleveland Heart Disease dataset.
+
+The analysis focuses on identifying patterns within the dataset while recognising the limitations of drawing conclusions from a small, historical clinical population.
 
 # Research Objectives
 
-1. Describe the clinical characteristics of the sample.
-2. Compare patients with and without CAD.
-3. Investigate associations using statistical modelling.
-4. Critically assess the limitations of the findings.
+1. Describe the demographic and clinical characteristics of patients in the dataset.
+2. Compare cholesterol levels and resting systolic blood pressure between patients with and without recorded CAD.
+3. Investigate associations between age, sex, blood pressure, cholesterol and CAD using multivariable logistic regression.
+4. Explore potential nonlinear relationships, assess the robustness of the findings and consider the limitations of the analysis.
 
 # Methods
 
 ## Dataset
 
-Data were obtained from the publicly available Cleveland subset of the UCI Heart Disease dataset, originally donated in 1988. The dataset contains 303 patient records and 14 commonly used clinical and demographic variables[@uciheart1988].
+Data were obtained from the Cleveland subset of the UCI Heart Disease dataset, originally contributed in 1988. The dataset contains 303 patient records and 14 clinical and demographic variables [@uciheart1988].
 
-The primary outcome was the presence of angiographically defined coronary artery disease (CAD), derived from the original variable `num`. A value of zero represents the absence of significant coronary narrowing, while values of 1–4 were categorised as CAD present, corresponding to the dataset's documented disease classification based on coronary artery narrowing exceeding 50%.
+The primary outcome was derived from the variable `num`, which describes angiographic coronary artery disease status. A value of 0 indicates less than 50% coronary artery diameter narrowing, while values of 1–4 indicate the presence of greater than 50% narrowing. For this analysis, the outcome was converted into a binary variable representing the absence or presence of angiographically defined obstructive CAD.
 
-The primary explanatory variables were age (years), recorded sex (male or female), resting systolic blood pressure (mmHg) and total serum cholesterol (mg/dL).
+The explanatory variables were age (years), recorded sex, resting systolic blood pressure (mmHg) and total serum cholesterol (mg/dL). These were selected based on their clinical relevance to cardiovascular disease.
 
-These variables were selected because of their clinical relevance to cardiovascular disease and the feasibility of investigating their associations in a relatively small dataset.
-
-The analysis was observational and cross-sectional in nature. It investigated associations with existing CAD rather than the incidence of future cardiovascular events.
+This was an exploratory, cross-sectional analysis investigating associations with existing CAD rather than predicting future cardiovascular events.
 
 **Data source:** [UCI Machine Learning Repository — Heart Disease](https://doi.org/10.24432/C52P4X).
 
 ## Data preparation
 
-The original dataset was imported using R. Missing values
-were identified and the primary analysis variables were
-prepared using dplyr.
+## Data preparation
+
+The original dataset was imported into R, with missing values represented by `?` converted to `NA`. The CAD outcome variable (`num`) was recoded into a binary variable, and recorded sex was converted into a categorical variable with labelled groups.
+
+Data cleaning and preparation were performed using `dplyr`, with the original dataset retained for reference.
 
 ```{r}
 #| label: setup
@@ -101,59 +101,51 @@ knitr::kable(quality_table)
 ```
 ## Statistical Analysis
 
-All analyses were performed using R, with `dplyr` used for data manipulation and `ggplot2` for visualisation[@ggplot2016].
+All analyses were performed using R, with dplyr for data manipulation and ggplot2 for visualisation [@ggplot2016].
 
 ### Data Preparation and Descriptive Statistics
 
-The original dataset was imported as a CSV-formatted file. Missing-value indicators represented by `?` were converted to `NA` during import.
+The dataset was assessed for missing values before analysis. Four observations had missing values for ca and two for thal. However, all variables included in the primary regression model were complete, allowing all 303 patients to be retained.
 
-The original CAD outcome was recoded into a binary variable, and recorded sex was converted into a categorical variable.
-
-Missing values were identified in the original `ca` and `thal` variables, with four and two missing observations, respectively. No missing values were identified in the five variables required for the primary regression analysis. Therefore, all 303 patients were retained.
-
-Descriptive statistics included frequencies, percentages, means, medians, standard deviations and ranges. Patient characteristics were summarised by CAD status.
+Patient characteristics were summarised according to CAD status, including the number of patients in each group and their mean age, resting systolic blood pressure and cholesterol levels. Additional descriptive statistics were explored to examine the distribution of clinical measurements.
 
 ### Unadjusted Comparisons
 
-Welch's independent-samples t-tests were used to compare mean resting systolic blood pressure and total cholesterol between patients with and without CAD.
+Welch's two-sample t-tests were used to compare mean resting systolic blood pressure and total cholesterol between patients with and without recorded CAD. This method was chosen because it does not require equal variances between the two groups.
 
-Mean differences were calculated as CAD present minus No CAD, with corresponding 95% confidence intervals and two-sided p-values.
+Mean differences were calculated as CAD present minus No CAD, with 95% confidence intervals and two-sided p-values. These comparisons were unadjusted and therefore did not account for differences in other patient characteristics.
 
 ### Multivariable Logistic Regression
 
-Multivariable logistic regression was performed to investigate associations between CAD status and age, sex, resting systolic blood pressure and total cholesterol.
+Multivariable logistic regression was used to investigate the association between recorded CAD status and four explanatory variables: age, sex, resting systolic blood pressure and total cholesterol.
 
-The initial model assumed linear relationships between continuous predictors and the log-odds of CAD.
+Age, blood pressure and cholesterol were included as continuous variables, scaled per 10 years, 10 mmHg and 10 mg/dL, respectively. Female sex was used as the reference category.
 
-Age was scaled per 10 years, systolic blood pressure per 10 mmHg and cholesterol per 10 mg/dL.
+The initial model assumed a linear relationship between each continuous predictor and the log-odds of CAD. Regression coefficients were converted into adjusted odds ratios (ORs), with 95% Wald confidence intervals calculated to describe the uncertainty around these estimates.
 
-Regression coefficients were exponentiated to calculate adjusted odds ratios, with 95% Wald confidence intervals.
+### Model Checks and Exploratory Nonlinear Modelling
 
-Female sex was the reference category.
+Cook's distance was used to identify potentially influential observations in the initial logistic regression model. A threshold of 4/n was used as a screening guide. Observations exceeding this threshold were flagged but not automatically excluded from the analysis.
 
-### Model Diagnostics
+Natural cubic splines with three degrees of freedom were used to explore whether age, systolic blood pressure and cholesterol had nonlinear relationships with the log-odds of CAD. Model fit was compared using likelihood-ratio tests for nested models and the Akaike Information Criterion (AIC).
 
-Cook's distance was used to screen for influential observations, using 4/n as an exploratory threshold. Observations exceeding this threshold were investigated but not automatically excluded.
-
-Potential nonlinear associations were assessed using natural cubic splines with three degrees of freedom. Nested models were compared using likelihood-ratio tests and Akaike Information Criterion (AIC).
-
-Spline comparisons were exploratory, and the resulting model choices were interpreted cautiously because several specifications were examined using the same dataset.
+These analyses were exploratory, and the results were interpreted cautiously because multiple model specifications were examined using the same dataset. The checks did not constitute a complete assessment of model validity.
 
 ### Sensitivity Analysis
 
-A sensitivity analysis repeated the initial multivariable logistic regression after excluding the observation with the highest recorded cholesterol concentration (564 mg/dL).
+A sensitivity analysis was conducted to assess whether the highest recorded cholesterol measurement (564 mg/dL) had a substantial influence on the initial logistic regression results.
 
-Adjusted odds ratios were compared with those from the original model to assess the influence of this observation.
+The analysis was repeated after excluding this observation, and the adjusted odds ratios were compared with those from the original model.
 
-The primary analysis retained all 303 patients.
+All 303 patients were retained in the primary analysis. This sensitivity analysis was limited to the original linear-age model and did not assess the robustness of the spline models.
 
 ### Statistical Interpretation
 
-A conventional significance threshold of p < 0.05 was used for exploratory statistical comparisons.
+A significance threshold of p < 0.05 was used for exploratory statistical comparisons. Findings were interpreted alongside effect sizes, 95% confidence intervals and their clinical relevance, rather than relying solely on statistical significance.
 
-Results were interpreted alongside effect sizes, confidence intervals, clinical relevance and potential confounding. No multiplicity adjustment was applied, and the analyses were not treated as confirmatory hypothesis tests.
+As multiple statistical comparisons and model specifications were explored, the possibility of chance findings was considered. No adjustment for multiple testing was applied, and the results were not treated as confirmatory evidence.
 
-All statistical associations were interpreted as observational rather than causal. The STROBE statement provides guidance for transparent reporting of observational research [@strobe2007].
+All findings were interpreted as associations rather than causal relationships. The STROBE statement was consulted as guidance for transparent reporting of observational research [@strobe2007].
 
 # Results
 
@@ -213,7 +205,6 @@ per 10-unit increase.
 #| label: tbl-regression
 #| tbl-cap: "Adjusted odds ratios for coronary artery disease"
 
-# Fit the logistic regression model
 cad_model_report <- glm(
   cad_present ~ I(age / 10) +
     sex_group +
@@ -223,66 +214,38 @@ cad_model_report <- glm(
   family = binomial(link = "logit")
 )
 
-# Extract regression coefficients
-beta <- coef(cad_model_report)
+model_summary <- summary(cad_model_report)$coefficients[-1, , drop = FALSE]
 
-# Calculate standard errors
-se <- sqrt(diag(vcov(cad_model_report)))
+estimates <- model_summary[, "Estimate"]
+standard_errors <- model_summary[, "Std. Error"]
+p_values <- model_summary[, "Pr(>|z|)"]
 
-# Create a formatted results table
-regression_table <- data.frame(
-  Variable = c(
+regression_display <- data.frame(
+  Predictor = c(
     "Age (per 10 years)",
     "Male vs female",
     "Systolic BP (per 10 mmHg)",
     "Cholesterol (per 10 mg/dL)"
   ),
 
-  Adjusted_OR = round(exp(beta[-1]), 3),
-
-  CI_Lower = round(
-    exp(beta[-1] - 1.96 * se[-1]), 3
-  ),
-
-  CI_Upper = round(
-    exp(beta[-1] + 1.96 * se[-1]), 3
-  ),
-
-  P_Value = signif(
-    summary(cad_model_report)$coefficients[-1, 4],
-    3
-  )
-)
-
-
-# Format regression table for publication
-
-regression_display <- data.frame(
-  Predictor = regression_table$Variable,
-
-  "Adjusted OR" = sprintf(
-    "%.2f", regression_table$Adjusted_OR
-  ),
+  "Adjusted OR" = sprintf("%.2f", exp(estimates)),
 
   "95% CI" = sprintf(
     "%.2f to %.2f",
-    regression_table$CI_Lower,
-    regression_table$CI_Upper
+    exp(estimates - 1.96 * standard_errors),
+    exp(estimates + 1.96 * standard_errors)
   ),
 
   "p-value" = ifelse(
-    regression_table$P_Value < 0.001,
+    p_values < 0.001,
     "<0.001",
-    sprintf("%.3f", regression_table$P_Value)
+    sprintf("%.3f", p_values)
   ),
 
   check.names = FALSE
 )
 
-knitr::kable(
-  regression_display,
-  row.names = FALSE
-)
+knitr::kable(regression_display, row.names = FALSE)
 ```
 
 The model estimates adjusted odds ratios describing
@@ -306,7 +269,6 @@ adjustment for potential confounding variables.
 #| label: tbl-hypothesis-tests
 #| tbl-cap: "Unadjusted comparisons between CAD groups"
 
-# Perform the statistical tests
 chol_test_report <- t.test(
   chol ~ cad_group,
   data = heart_clean
@@ -317,69 +279,30 @@ bp_test_report <- t.test(
   data = heart_clean
 )
 
-# Function to format results
 format_test <- function(test, variable) {
+  group_means <- unname(test$estimate)
+  difference <- group_means[2] - group_means[1]
+  ci <- -rev(test$conf.int[1:2])
+
   data.frame(
     Variable = variable,
-
-    Mean_No_CAD = round(
-      unname(test$estimate[1]), 2
+    "No CAD" = sprintf("%.2f", group_means[1]),
+    "CAD present" = sprintf("%.2f", group_means[2]),
+    "Difference (95% CI)" = sprintf(
+      "%.2f (%.2f to %.2f)",
+      difference, ci[1], ci[2]
     ),
-
-    Mean_CAD = round(
-      unname(test$estimate[2]), 2
-    ),
-
-    Mean_Difference = round(
-      unname(test$estimate[2] - test$estimate[1]), 2
-    ),
-
-    CI_Lower = round(-test$conf.int[2], 2),
-
-    CI_Upper = round(-test$conf.int[1], 2),
-
-    P_Value = signif(test$p.value, 3)
+    "p-value" = sprintf("%.3f", test$p.value),
+    check.names = FALSE
   )
 }
 
-# Combine both tests
-test_results <- rbind(
+test_display <- rbind(
   format_test(chol_test_report, "Cholesterol (mg/dL)"),
   format_test(bp_test_report, "Systolic BP (mmHg)")
 )
 
-
-# Create a compact, publication-friendly table
-
-test_display <- data.frame(
-  Variable = test_results$Variable,
-
-  "No CAD" = sprintf(
-    "%.2f", test_results$Mean_No_CAD
-  ),
-
-  "CAD present" = sprintf(
-    "%.2f", test_results$Mean_CAD
-  ),
-
-  "Difference (95% CI)" = sprintf(
-    "%.2f (%.2f to %.2f)",
-    test_results$Mean_Difference,
-    test_results$CI_Lower,
-    test_results$CI_Upper
-  ),
-
-  "p-value" = sprintf(
-    "%.3f", test_results$P_Value
-  ),
-
-  check.names = FALSE
-)
-
-knitr::kable(
-  test_display,
-  row.names = FALSE
-)
+knitr::kable(test_display, row.names = FALSE)
 ```
 
 The mean differences and their 95% confidence intervals
@@ -412,7 +335,6 @@ age_spline_report <- glm(
   family = binomial(link = "logit")
 )
 
-# Compare model fit
 model_comparison <- data.frame(
   Model = c("Linear age", "Nonlinear age"),
   AIC = round(
@@ -468,7 +390,6 @@ prediction_data$chol <- median(
   heart_clean$chol
 )
 
-# Predictions on the log-odds scale
 pred <- predict(
   age_spline_report,
   newdata = prediction_data,
@@ -476,7 +397,6 @@ pred <- predict(
   se.fit = TRUE
 )
 
-# Convert predictions to probabilities
 prediction_data$probability <- plogis(pred$fit)
 
 prediction_data$lower <- plogis(
@@ -487,7 +407,6 @@ prediction_data$upper <- plogis(
   pred$fit + 1.96 * pred$se.fit
 )
 
-# Create graph
 ggplot(
   prediction_data,
   aes(
@@ -542,14 +461,9 @@ with the maximum cholesterol measurement.
 #| label: tbl-sensitivity
 #| tbl-cap: "Sensitivity analysis excluding the highest cholesterol observation"
 
-# Identify maximum cholesterol
-highest_chol <- max(heart_clean$chol, na.rm = TRUE)
-
-# Create sensitivity dataset
 sensitivity_data <- heart_clean |>
-  filter(chol != highest_chol)
+  slice(-which.max(chol))
 
-# Repeat the original linear-age regression
 sensitivity_model <- glm(
   cad_present ~ I(age / 10) +
     sex_group +
@@ -559,7 +473,6 @@ sensitivity_model <- glm(
   family = binomial(link = "logit")
 )
 
-# Compare odds ratios
 sensitivity_results <- data.frame(
   Predictor = c(
     "Age (per 10 years)",
@@ -621,79 +534,75 @@ automatically excluded from the primary analysis.
 
 ## Principal Findings
 
-This exploratory analysis investigated associations between demographic and clinical characteristics and the presence of coronary artery disease (CAD) in 303 patients from the UCI Cleveland Heart Disease dataset.
+This analysis investigated associations between demographic and clinical characteristics and recorded coronary artery disease (CAD) in 303 patients from the UCI Cleveland Heart Disease dataset.
 
-Patients with CAD were, on average, older and had higher resting systolic blood pressure and total cholesterol concentrations than those without CAD.
+Patients with recorded CAD were, on average, older and had higher resting systolic blood pressure and total cholesterol than those without recorded obstructive CAD.
 
-The unadjusted comparison identified a statistically significant difference in mean systolic blood pressure between groups (mean difference 5.32 mmHg, 95% CI 1.31–9.32; p = 0.0094). In contrast, the difference in mean total cholesterol was not statistically significant (8.83 mg/dL, 95% CI −2.82 to 20.48; p = 0.137).
+The unadjusted analysis found that mean systolic blood pressure was 5.32 mmHg higher in patients with CAD (95% CI 1.31–9.32; p = 0.0094). Although mean cholesterol was also higher in this group, the difference of 8.83 mg/dL (95% CI −2.82 to 20.48; p = 0.137) was not statistically significant.
 
-These findings describe differences within the selected clinical sample and should not be interpreted as evidence of causation.
+These comparisons describe differences within this particular clinical sample and do not account for other patient characteristics that may influence the findings.
 
 ## Multivariable Associations
 
-Multivariable logistic regression was used to investigate associations with CAD while adjusting for age, sex, resting systolic blood pressure and total cholesterol.
+Multivariable logistic regression was used to investigate associations with CAD while accounting for age, sex, resting systolic blood pressure and total cholesterol.
 
-In the original linear-age model, increasing age was associated with higher odds of CAD (adjusted OR 1.75 per 10 years, 95% CI 1.29–2.37). Male patients also demonstrated substantially higher estimated odds of CAD compared with female patients (adjusted OR 5.35, 95% CI 2.93–9.79).
+In the initial model, each additional 10 years of age was associated with approximately 75% higher odds of recorded CAD (adjusted OR 1.75, 95% CI 1.29–2.37). Male patients also had substantially higher estimated odds compared with female patients (adjusted OR 5.35, 95% CI 2.93–9.79).
 
-The adjusted associations for systolic blood pressure (OR 1.15 per 10 mmHg, p = 0.063) and cholesterol (OR 1.05 per 10 mg/dL, p = 0.071) did not reach the conventional 5% significance threshold.
+Resting systolic blood pressure (OR 1.15 per 10 mmHg, p = 0.063) and cholesterol (OR 1.05 per 10 mg/dL, p = 0.071) were not statistically significant after adjustment for the other included variables.
 
-The difference between the unadjusted blood pressure comparison and the adjusted regression findings illustrates the importance of considering other patient characteristics. However, the analyses estimate different statistical quantities, and the change cannot be attributed solely to confounding without further investigation.
+The difference between the unadjusted blood pressure comparison and the adjusted findings highlights the importance of considering other patient characteristics. However, these analyses estimate different statistical quantities, so the change cannot be attributed solely to confounding.
 
-The absence of statistical significance for cholesterol and blood pressure in the adjusted model does not negate their established clinical relevance in cardiovascular disease prevention.
+From a clinical perspective, the absence of statistically significant adjusted associations for blood pressure and cholesterol should be interpreted cautiously. Both remain established cardiovascular risk factors, and these findings do not challenge the importance of blood pressure management or lipid-lowering treatment in cardiovascular prevention.
+
+The results are limited to this historical clinical sample and should not be interpreted as causal relationships.
 
 ## Nonlinear Association With Age
 
-Exploratory modelling suggested that the relationship between age and the log-odds of CAD may be nonlinear. A natural cubic spline model provided improved fit compared with the linear-age model (likelihood-ratio test p = 0.0118; AIC 370.18 versus 375.07).
+Exploratory modelling suggested a nonlinear relationship between age and the presence of CAD. The natural cubic spline model provided a better fit to the observed data than the initial linear-age model (likelihood-ratio test p = 0.0118; AIC 370.18 versus 375.07).
 
-The fitted relationship increased towards approximately 60–65 years before declining at older ages. However, relatively few patients were represented in the oldest age categories, creating uncertainty around the fitted relationship.
+The fitted relationship suggested that the probability of recorded CAD increased with age before declining beyond approximately 60–65 years. However, there were relatively few patients at the older end of the age distribution, making these estimates less reliable.
 
-Consequently, the apparent decline should not be interpreted as evidence that increasing age becomes protective against CAD. The original model's constant age odds ratio should also be interpreted cautiously because its linearity assumption was questioned by the exploratory analysis.
+This apparent decline should not be interpreted as evidence that older age protects against CAD. The pattern may reflect characteristics of the selected patient population, limited data at older ages or instability in the fitted model.
+
+Although the spline model improved the apparent fit, the analysis was exploratory and the relationship has not been validated using an independent dataset.
 
 ## Sensitivity Analysis and Model Robustness
 
-Excluding the patient with the highest total cholesterol concentration (564 mg/dL) produced relatively small changes in the adjusted odds ratios from the original linear-age model.
+Excluding the patient with the highest recorded cholesterol level (564 mg/dL) resulted in relatively small changes to the adjusted odds ratios in the initial logistic regression model. This suggests that the findings were not substantially influenced by this individual observation.
 
-This suggests that the estimated associations in that model were not predominantly driven by this single extreme observation.
+Cook's distance screening identified 14 observations exceeding the exploratory threshold of 4/n. These observations were retained in the analysis, as a potentially influential observation does not necessarily indicate an incorrect or unreliable patient record.
 
-Cook's distance screening identified 14 observations exceeding the exploratory threshold of 4/n. These observations were retained in the primary analysis, as statistical influence alone does not establish that a patient record is incorrect.
-
-These checks provide some reassurance regarding the sensitivity of the original model but do not constitute a complete assessment of model validity.
+Although these checks provide some reassurance about the stability of the initial model, they do not establish that the findings are fully robust. Other sources of uncertainty, including model specification, potential confounding and the characteristics of the sample, remain important limitations.
 
 ## Clinical and Research Implications
 
-The findings highlight the importance of distinguishing established cardiovascular risk factors from associations observed in a particular clinical dataset.
+The findings demonstrate the importance of interpreting statistical results within their clinical context. Although blood pressure and cholesterol did not show statistically significant adjusted associations with CAD in this dataset, both remain important factors in cardiovascular disease prevention.
 
-From a pharmacy and therapeutics perspective, blood pressure and lipid management remain important components of cardiovascular prevention. However, the present analysis cannot determine treatment effectiveness, establish causal relationships or estimate an individual's future cardiovascular risk.
+From a pharmacy perspective, clinical decisions regarding blood pressure and lipid management should consider the patient's overall cardiovascular risk, medical history and current treatment rather than individual measurements alone. The findings from this analysis should therefore not be used to guide treatment decisions.
 
-The project demonstrates how reproducible statistical programming can be used to investigate clinical data while emphasising the need for appropriate model selection, uncertainty assessment and cautious interpretation.
+From a research perspective, the project highlights how statistical modelling can help investigate relationships within clinical data, while also demonstrating the limitations of working with a small, historical dataset. Further research using larger, more representative populations and additional clinical variables would be needed to investigate these associations more reliably.
 
 # Limitations
 
-Several limitations should be considered when interpreting these findings.
+Several limitations should be considered when interpreting the findings of this analysis.
 
-**First,** the Cleveland Heart Disease dataset is relatively small, historical and derived from a selected clinical population. Its findings may not generalise to contemporary patients or the wider population.
+First, the Cleveland Heart Disease dataset contains only 303 patients from a historical, clinically selected population. The sample may not represent the wider population or patients receiving contemporary cardiovascular care, limiting the generalisability of the findings.
 
-**Second,** the observational design prevents causal conclusions. The dataset contains information on CAD status and clinical measurements but does not provide longitudinal follow-up suitable for estimating future cardiovascular events.
+Second, the analysis was observational and cross-sectional. It investigated associations with existing CAD rather than the development of cardiovascular disease over time. Therefore, causal conclusions cannot be drawn, and the models cannot estimate an individual's future cardiovascular risk.
 
-**Third,** important potential confounders, including smoking history, medication use, previous cardiovascular treatment and other relevant clinical characteristics, were not incorporated into the primary regression model. Residual confounding is therefore possible.
+Third, important potential confounding factors, including smoking history, medication use and previous cardiovascular treatment, were not included in the regression model. These factors may influence the observed associations, and their omission limits the interpretation of the adjusted results.
 
-**Fourth,** the dataset contains missing values in some diagnostic variables. Although the primary model variables were complete, missingness would require additional consideration if these variables were incorporated into further analyses.
+Fourth, although the primary analysis variables had no missing values, other variables in the dataset contained missing observations. The outcome also distinguished patients according to recorded obstructive CAD status rather than providing a complete assessment of coronary health.
 
-**Fifth,** the relatively small number of patients at the extremes of the age distribution may have contributed to instability in the nonlinear age model. Several alternative model specifications were explored using the same dataset, increasing the possibility of overfitting and data-driven findings.
-
-Finally, the analysis was exploratory, and the fitted models have not undergone external validation. Their estimated probabilities should not be interpreted as clinically validated prediction tools.
+Finally, the relatively small sample, particularly at the extremes of the age distribution, may have affected the stability of the nonlinear model. Multiple exploratory analyses were performed without adjustment for multiple testing, increasing the possibility of chance findings. The models were not independently validated, and their estimated probabilities should not be used for clinical decision-making.
 
 # Conclusion
 
-This exploratory study investigated associations between demographic and clinical characteristics and coronary artery disease using reproducible statistical analyses in R.
+This exploratory analysis of the UCI Cleveland Heart Disease dataset identified associations between age, sex and recorded coronary artery disease (CAD). In the initial multivariable logistic regression model, increasing age and male sex were associated with higher odds of CAD. Although resting systolic blood pressure differed significantly between groups in the unadjusted analysis, neither blood pressure nor cholesterol demonstrated statistically significant adjusted associations.
 
-Age and sex demonstrated statistically significant associations with CAD in the initial multivariable logistic regression model. Although systolic blood pressure differed significantly between disease groups in the unadjusted analysis, its association did not reach the conventional statistical significance threshold following adjustment for the other included variables.
+Exploratory spline modelling suggested that the association between age and CAD may be nonlinear, although uncertainty remained, particularly at older ages. The sensitivity analysis also indicated that the initial regression estimates were not substantially influenced by the highest cholesterol observation.
 
-Exploratory analyses also identified evidence of a nonlinear age relationship, highlighting the importance of evaluating model assumptions rather than relying exclusively on a single regression specification.
-
-Sensitivity analysis suggested that the original model's estimated associations were not substantially influenced by the highest cholesterol observation. Nevertheless, the small, historical and clinically selected dataset limits the generalisability of these findings.
-
-Overall, this project illustrates the application of R programming, statistical modelling, data visualisation and reproducible research methods to a clinically relevant question. Further research using larger, contemporary and representative datasets would be necessary to investigate these relationships more comprehensively.
+These findings must be interpreted within the limitations of a small, historical and clinically selected dataset. Further research using larger, more representative populations would be needed to investigate these relationships and assess their generalisability.
 
 # References
 

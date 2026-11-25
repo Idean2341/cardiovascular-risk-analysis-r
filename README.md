@@ -40,15 +40,37 @@ These results describe associations within a selected historical clinical sample
 
 ## Reproducing the Analysis
 
-**Requirements:** R, RStudio, Quarto, and the R packages `dplyr`, `ggplot2` and `knitr`.
+This project uses R and Quarto for statistical analysis and reproducible reporting. Package dependencies are managed using renv, allowing the R environment to be restored using the versions recorded in renv.lock.
 
-1. Download or clone this repository.
-2. Open the RStudio project file.
-3. Ensure the original UCI dataset is available in `data/raw/`, or run `import_data_1.R` to download it.
-4. Open `cardiovascular_report.qmd`.
-5. Render the document using Quarto to regenerate the statistical tables and figures.
+Requirements:
 
-PDF rendering additionally requires a LaTeX installation such as TinyTeX.
+R (developed using version 4.6.2)
+
+Quarto
+
+RStudio (recommended but optional)
+
+A LaTeX installation, such as TinyTeX, for PDF rendering
+
+Instructions:
+
+Clone or download this repository.
+
+Open cardiovascular-risk-analysis.Rproj in RStudio.
+
+Install renv if necessary by running install.packages("renv") in the R Console.
+
+Run renv::restore() to install the package versions specified in renv.lock.
+
+Render the report from the project directory using:
+
+HTML: quarto render cardiovascular_report.qmd --to html
+
+PDF: quarto render cardiovascular_report.qmd --to pdf
+
+The original Cleveland dataset is included in data/raw/. The analysis scripts can also be run individually from the project directory, with the necessary data preparation scripts loaded automatically.
+
+The Quarto source (cardiovascular_report.qmd) contains the analyses and generates the statistical tables and figures presented in the research report.
 
 ## Limitations
 

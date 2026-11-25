@@ -3,11 +3,7 @@ source("logistic_regression_5.R")
 library(ggplot2)
 
 prediction_data <- expand.grid(
-  age = seq(
-    min(heart_clean$age),
-    max(heart_clean$age),
-    length.out = 100
-  ),
+  age = seq(40, 69, length.out = 100),
   sex_group = levels(heart_clean$sex_group)
 )
 
