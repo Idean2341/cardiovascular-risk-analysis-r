@@ -2201,18 +2201,16 @@ vertical-align: -.125em;
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">3</span> Methods</a>
   <ul class="collapse">
   <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset"><span class="header-section-number">3.1</span> Dataset</a></li>
-  <li><a href="#dataset-1" id="toc-dataset-1" class="nav-link" data-scroll-target="#dataset-1"><span class="header-section-number">3.2</span> Dataset</a></li>
-  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><span class="header-section-number">3.3</span> Data preparation</a></li>
-  <li><a href="#data-preparation-1" id="toc-data-preparation-1" class="nav-link" data-scroll-target="#data-preparation-1"><span class="header-section-number">3.4</span> Data preparation</a></li>
-  <li><a href="#initial-data-quality-checks" id="toc-initial-data-quality-checks" class="nav-link" data-scroll-target="#initial-data-quality-checks"><span class="header-section-number">3.5</span> Initial data-quality checks</a></li>
-  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis"><span class="header-section-number">3.6</span> Statistical Analysis</a>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><span class="header-section-number">3.2</span> Data preparation</a></li>
+  <li><a href="#initial-data-quality-checks" id="toc-initial-data-quality-checks" class="nav-link" data-scroll-target="#initial-data-quality-checks"><span class="header-section-number">3.3</span> Initial data-quality checks</a></li>
+  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis"><span class="header-section-number">3.4</span> Statistical Analysis</a>
   <ul class="collapse">
-  <li><a href="#data-preparation-and-descriptive-statistics" id="toc-data-preparation-and-descriptive-statistics" class="nav-link" data-scroll-target="#data-preparation-and-descriptive-statistics"><span class="header-section-number">3.6.1</span> Data Preparation and Descriptive Statistics</a></li>
-  <li><a href="#unadjusted-comparisons" id="toc-unadjusted-comparisons" class="nav-link" data-scroll-target="#unadjusted-comparisons"><span class="header-section-number">3.6.2</span> Unadjusted Comparisons</a></li>
-  <li><a href="#multivariable-logistic-regression" id="toc-multivariable-logistic-regression" class="nav-link" data-scroll-target="#multivariable-logistic-regression"><span class="header-section-number">3.6.3</span> Multivariable Logistic Regression</a></li>
-  <li><a href="#model-checks-and-exploratory-nonlinear-modelling" id="toc-model-checks-and-exploratory-nonlinear-modelling" class="nav-link" data-scroll-target="#model-checks-and-exploratory-nonlinear-modelling"><span class="header-section-number">3.6.4</span> Model Checks and Exploratory Nonlinear Modelling</a></li>
-  <li><a href="#sensitivity-analysis" id="toc-sensitivity-analysis" class="nav-link" data-scroll-target="#sensitivity-analysis"><span class="header-section-number">3.6.5</span> Sensitivity Analysis</a></li>
-  <li><a href="#statistical-interpretation" id="toc-statistical-interpretation" class="nav-link" data-scroll-target="#statistical-interpretation"><span class="header-section-number">3.6.6</span> Statistical Interpretation</a></li>
+  <li><a href="#data-preparation-and-descriptive-statistics" id="toc-data-preparation-and-descriptive-statistics" class="nav-link" data-scroll-target="#data-preparation-and-descriptive-statistics"><span class="header-section-number">3.4.1</span> Data Preparation and Descriptive Statistics</a></li>
+  <li><a href="#unadjusted-comparisons" id="toc-unadjusted-comparisons" class="nav-link" data-scroll-target="#unadjusted-comparisons"><span class="header-section-number">3.4.2</span> Unadjusted Comparisons</a></li>
+  <li><a href="#multivariable-logistic-regression" id="toc-multivariable-logistic-regression" class="nav-link" data-scroll-target="#multivariable-logistic-regression"><span class="header-section-number">3.4.3</span> Multivariable Logistic Regression</a></li>
+  <li><a href="#model-checks-and-exploratory-nonlinear-modelling" id="toc-model-checks-and-exploratory-nonlinear-modelling" class="nav-link" data-scroll-target="#model-checks-and-exploratory-nonlinear-modelling"><span class="header-section-number">3.4.4</span> Model Checks and Exploratory Nonlinear Modelling</a></li>
+  <li><a href="#sensitivity-analysis" id="toc-sensitivity-analysis" class="nav-link" data-scroll-target="#sensitivity-analysis"><span class="header-section-number">3.4.5</span> Sensitivity Analysis</a></li>
+  <li><a href="#statistical-interpretation" id="toc-statistical-interpretation" class="nav-link" data-scroll-target="#statistical-interpretation"><span class="header-section-number">3.4.6</span> Statistical Interpretation</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">4</span> Results</a>
@@ -2298,25 +2296,19 @@ vertical-align: -.125em;
 <h1 data-number="3"><span class="header-section-number">3</span> Methods</h1>
 <section id="dataset" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="dataset"><span class="header-section-number">3.1</span> Dataset</h2>
-</section>
-<section id="dataset-1" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="dataset-1"><span class="header-section-number">3.2</span> Dataset</h2>
 <p>Data were obtained from the Cleveland subset of the UCI Heart Disease dataset, originally contributed in 1988. The dataset contains 303 patient records and 14 clinical and demographic variables <span class="citation" data-cites="uciheart1988">(<a href="#ref-uciheart1988" role="doc-biblioref">Janosi et al. 1988</a>)</span>.</p>
 <p>The primary outcome was derived from the variable <code>num</code>, which describes angiographic coronary artery disease status. A value of 0 indicates less than 50% coronary artery diameter narrowing, while values of 1–4 indicate the presence of greater than 50% narrowing. For this analysis, the outcome was converted into a binary variable representing the absence or presence of angiographically defined obstructive CAD.</p>
 <p>The explanatory variables were age (years), recorded sex, resting systolic blood pressure (mmHg) and total serum cholesterol (mg/dL). These were selected based on their clinical relevance to cardiovascular disease.</p>
 <p>This was an exploratory, cross-sectional analysis investigating associations with existing CAD rather than predicting future cardiovascular events.</p>
 <p><strong>Data source:</strong> <a href="https://doi.org/10.24432/C52P4X">UCI Machine Learning Repository — Heart Disease</a>.</p>
 </section>
-<section id="data-preparation" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="data-preparation"><span class="header-section-number">3.3</span> Data preparation</h2>
-</section>
-<section id="data-preparation-1" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="data-preparation-1"><span class="header-section-number">3.4</span> Data preparation</h2>
+<section id="data-preparation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="data-preparation"><span class="header-section-number">3.2</span> Data preparation</h2>
 <p>The original dataset was imported into R, with missing values represented by <code>?</code> converted to <code>NA</code>. The CAD outcome variable (<code>num</code>) was recoded into a binary variable, and recorded sex was converted into a categorical variable with labelled groups.</p>
 <p>Data cleaning and preparation were performed using <code>dplyr</code>, with the original dataset retained for reference.</p>
 </section>
-<section id="initial-data-quality-checks" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="initial-data-quality-checks"><span class="header-section-number">3.5</span> Initial data-quality checks</h2>
+<section id="initial-data-quality-checks" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="initial-data-quality-checks"><span class="header-section-number">3.3</span> Initial data-quality checks</h2>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -2338,39 +2330,39 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="statistical-analysis" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="statistical-analysis"><span class="header-section-number">3.6</span> Statistical Analysis</h2>
+<section id="statistical-analysis" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="statistical-analysis"><span class="header-section-number">3.4</span> Statistical Analysis</h2>
 <p>All analyses were performed using R, with dplyr for data manipulation and ggplot2 for visualisation <span class="citation" data-cites="ggplot2016">(<a href="#ref-ggplot2016" role="doc-biblioref">Wickham 2016</a>)</span>.</p>
-<section id="data-preparation-and-descriptive-statistics" class="level3" data-number="3.6.1">
-<h3 data-number="3.6.1" class="anchored" data-anchor-id="data-preparation-and-descriptive-statistics"><span class="header-section-number">3.6.1</span> Data Preparation and Descriptive Statistics</h3>
+<section id="data-preparation-and-descriptive-statistics" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="data-preparation-and-descriptive-statistics"><span class="header-section-number">3.4.1</span> Data Preparation and Descriptive Statistics</h3>
 <p>The dataset was assessed for missing values before analysis. Four observations had missing values for ca and two for thal. However, all variables included in the primary regression model were complete, allowing all 303 patients to be retained.</p>
 <p>Patient characteristics were summarised according to CAD status, including the number of patients in each group and their mean age, resting systolic blood pressure and cholesterol levels. Additional descriptive statistics were explored to examine the distribution of clinical measurements.</p>
 </section>
-<section id="unadjusted-comparisons" class="level3" data-number="3.6.2">
-<h3 data-number="3.6.2" class="anchored" data-anchor-id="unadjusted-comparisons"><span class="header-section-number">3.6.2</span> Unadjusted Comparisons</h3>
+<section id="unadjusted-comparisons" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="unadjusted-comparisons"><span class="header-section-number">3.4.2</span> Unadjusted Comparisons</h3>
 <p>Welch’s two-sample t-tests were used to compare mean resting systolic blood pressure and total cholesterol between patients with and without recorded CAD. This method was chosen because it does not require equal variances between the two groups.</p>
 <p>Mean differences were calculated as CAD present minus No CAD, with 95% confidence intervals and two-sided p-values. These comparisons were unadjusted and therefore did not account for differences in other patient characteristics.</p>
 </section>
-<section id="multivariable-logistic-regression" class="level3" data-number="3.6.3">
-<h3 data-number="3.6.3" class="anchored" data-anchor-id="multivariable-logistic-regression"><span class="header-section-number">3.6.3</span> Multivariable Logistic Regression</h3>
+<section id="multivariable-logistic-regression" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="multivariable-logistic-regression"><span class="header-section-number">3.4.3</span> Multivariable Logistic Regression</h3>
 <p>Multivariable logistic regression was used to investigate the association between recorded CAD status and four explanatory variables: age, sex, resting systolic blood pressure and total cholesterol.</p>
 <p>Age, blood pressure and cholesterol were included as continuous variables, scaled per 10 years, 10 mmHg and 10 mg/dL, respectively. Female sex was used as the reference category.</p>
 <p>The initial model assumed a linear relationship between each continuous predictor and the log-odds of CAD. Regression coefficients were converted into adjusted odds ratios (ORs), with 95% Wald confidence intervals calculated to describe the uncertainty around these estimates.</p>
 </section>
-<section id="model-checks-and-exploratory-nonlinear-modelling" class="level3" data-number="3.6.4">
-<h3 data-number="3.6.4" class="anchored" data-anchor-id="model-checks-and-exploratory-nonlinear-modelling"><span class="header-section-number">3.6.4</span> Model Checks and Exploratory Nonlinear Modelling</h3>
+<section id="model-checks-and-exploratory-nonlinear-modelling" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="model-checks-and-exploratory-nonlinear-modelling"><span class="header-section-number">3.4.4</span> Model Checks and Exploratory Nonlinear Modelling</h3>
 <p>Cook’s distance was used to identify potentially influential observations in the initial logistic regression model. A threshold of 4/n was used as a screening guide. Observations exceeding this threshold were flagged but not automatically excluded from the analysis.</p>
 <p>Natural cubic splines with three degrees of freedom were used to explore whether age, systolic blood pressure and cholesterol had nonlinear relationships with the log-odds of CAD. Model fit was compared using likelihood-ratio tests for nested models and the Akaike Information Criterion (AIC).</p>
 <p>These analyses were exploratory, and the results were interpreted cautiously because multiple model specifications were examined using the same dataset. The checks did not constitute a complete assessment of model validity.</p>
 </section>
-<section id="sensitivity-analysis" class="level3" data-number="3.6.5">
-<h3 data-number="3.6.5" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">3.6.5</span> Sensitivity Analysis</h3>
+<section id="sensitivity-analysis" class="level3" data-number="3.4.5">
+<h3 data-number="3.4.5" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">3.4.5</span> Sensitivity Analysis</h3>
 <p>A sensitivity analysis was conducted to assess whether the highest recorded cholesterol measurement (564 mg/dL) had a substantial influence on the initial logistic regression results.</p>
 <p>The analysis was repeated after excluding this observation, and the adjusted odds ratios were compared with those from the original model.</p>
 <p>All 303 patients were retained in the primary analysis. This sensitivity analysis was limited to the original linear-age model and did not assess the robustness of the spline models.</p>
 </section>
-<section id="statistical-interpretation" class="level3" data-number="3.6.6">
-<h3 data-number="3.6.6" class="anchored" data-anchor-id="statistical-interpretation"><span class="header-section-number">3.6.6</span> Statistical Interpretation</h3>
+<section id="statistical-interpretation" class="level3" data-number="3.4.6">
+<h3 data-number="3.4.6" class="anchored" data-anchor-id="statistical-interpretation"><span class="header-section-number">3.4.6</span> Statistical Interpretation</h3>
 <p>A significance threshold of p &lt; 0.05 was used for exploratory statistical comparisons. Findings were interpreted alongside effect sizes, 95% confidence intervals and their clinical relevance, rather than relying solely on statistical significance.</p>
 <p>As multiple statistical comparisons and model specifications were explored, the possibility of chance findings was considered. No adjustment for multiple testing was applied, and the results were not treated as confirmatory evidence.</p>
 <p>All findings were interpreted as associations rather than causal relationships. The STROBE statement was consulted as guidance for transparent reporting of observational research <span class="citation" data-cites="strobe2007">(<a href="#ref-strobe2007" role="doc-biblioref">Elm et al. 2007</a>)</span>.</p>

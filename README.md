@@ -40,37 +40,42 @@ These results describe associations within a selected historical clinical sample
 
 ## Reproducing the Analysis
 
-This project uses R and Quarto for statistical analysis and reproducible reporting. Package dependencies are managed using renv, allowing the R environment to be restored using the versions recorded in renv.lock.
+This project uses R and Quarto for statistical analysis and reporting. R package dependencies are managed using `renv`, with package versions recorded in `renv.lock`.
 
-Requirements:
+### Requirements
 
-R (developed using version 4.6.2)
+- R (developed using version 4.6.2)
+- Quarto
+- RStudio (recommended)
+- TinyTeX or another LaTeX installation for PDF rendering
 
-Quarto
+### Instructions
 
-RStudio (recommended but optional)
+1. Clone or download this repository.
+2. Open `cardiovascular-risk-analysis.Rproj` in RStudio.
+3. Install `renv` if necessary:
 
-A LaTeX installation, such as TinyTeX, for PDF rendering
+   `install.packages("renv")`
 
-Instructions:
+4. Restore the recorded package dependencies:
 
-Clone or download this repository.
+   `renv::restore()`
 
-Open cardiovascular-risk-analysis.Rproj in RStudio.
+5. Render the report from the project directory.
 
-Install renv if necessary by running install.packages("renv") in the R Console.
+   **HTML:**
+   `quarto render cardiovascular_report.qmd --to html`
 
-Run renv::restore() to install the package versions specified in renv.lock.
+   **PDF:**
+   `quarto render cardiovascular_report.qmd --to pdf`
 
-Render the report from the project directory using:
+### Project Files
 
-HTML: quarto render cardiovascular_report.qmd --to html
+The original Cleveland dataset is included in `data/raw/`.
 
-PDF: quarto render cardiovascular_report.qmd --to pdf
+The individual R scripts can be run from the project directory and load their required data preparation scripts automatically.
 
-The original Cleveland dataset is included in data/raw/. The analysis scripts can also be run individually from the project directory, with the necessary data preparation scripts loaded automatically.
-
-The Quarto source (cardiovascular_report.qmd) contains the analyses and generates the statistical tables and figures presented in the research report.
+The Quarto source file (`cardiovascular_report.qmd`) generates the statistical tables and figures presented in the research report.
 
 ## Limitations
 

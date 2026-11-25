@@ -69,8 +69,6 @@ This was an exploratory, cross-sectional analysis investigating associations wit
 
 ## Data preparation
 
-## Data preparation
-
 The original dataset was imported into R, with missing values represented by `?` converted to `NA`. The CAD outcome variable (`num`) was recoded into a binary variable, and recorded sex was converted into a categorical variable with labelled groups.
 
 Data cleaning and preparation were performed using `dplyr`, with the original dataset retained for reference.
